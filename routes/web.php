@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('member')->group(functi
     Route::post('/create','MemberController@create')->name('create-member');
     Route::patch('/edit', 'MemberController@update')->name('edit-member');
     Route::patch('/update-login/{member}', 'MemberController@update_login')->name('update-login');
+    Route::post('/import-member', 'MemberController@import_excel')->name('import-member');
+    Route::get('/export-member', 'MemberController@export_excel')->name('export-member');
     Route::delete('/delete/{member}', 'MemberController@destroy')->name('delete-member');
 });
 

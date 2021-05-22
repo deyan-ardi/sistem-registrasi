@@ -30,12 +30,29 @@
                 <h6 class="m-0 font-weight-bold text-primary">Member {{ ucWords($setting->name_comunity) }}</h6>
             </div>
             <div class="card-body">
-                <a href="#" class="btn btn-sm btn-primary mb-3 btn-icon-split" data-toggle="modal" data-target="#addMember">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                    <span class="text">Tambah Member</span>
-                </a>
+                <div class="row">
+
+                    <a href="#" class="btn btn-sm btn-primary mb-3 btn-icon-split" data-toggle="modal"
+                        data-target="#addMember">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Tambah Member</span>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-success mb-3 ml-2 btn-icon-split" data-toggle="modal"
+                        data-target="#importMember">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="text">Import Excel</span>
+                    </a>
+                    <a href="{{ route('export-member') }}" class="btn btn-sm btn-info mb-3 ml-2 btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span class="text">Export To Excel</span>
+                    </a>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -173,8 +190,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <input id="text" type="password"
-                                                                    class="form-control form-control-user"
-                                                                    name="repassword"
+                                                                    class="form-control form-control-user" name="repassword"
                                                                     placeholder="Konfirmasi Password (Jika Ingin Merubah)">
                                                             </div>
                                                             <div class="form-group form-check">
@@ -270,6 +286,43 @@
                             @enderror
                         </div>
                         <input type="hidden" name="edit" value="0">
+                        <input type="hidden" name="level" value="user" required>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="importMember" tabindex="-1" aria-labelledby="addMemberLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMemberLabel">Import Excel Member</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="user" action="{{ route('import-member') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <input id="text" type="file" accept=".xlsx"
+                                class="form-control form-control-user @error('import') is-invalid @enderror" name="import"
+                                required>
+
+                            @error('import')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <p>Silahkan import data member komunitas dengan menggunakan format berikut (<span class="text-primary"><a href="{{ asset('format_file_upload.xlsx') }}">Format Upload Excel</a></span>)</p>
                         <input type="hidden" name="level" value="user" required>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

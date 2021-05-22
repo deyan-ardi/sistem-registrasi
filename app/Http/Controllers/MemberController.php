@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Setting;
 use App\User;
 use App\Vote;
@@ -9,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Excel;
 
 class MemberController extends Controller
 {
@@ -22,9 +25,9 @@ class MemberController extends Controller
                 $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,11'];
             }
             if ($data['email'] == $cariData->email) {
-                $email = ['nullable','string', 'email', 'max:255',];
+                $email = ['nullable', 'string', 'email', 'max:255',];
             } else {
-                $email = ['nullable','unique:users', 'string', 'email', 'max:255'];
+                $email = ['nullable', 'unique:users', 'string', 'email', 'max:255'];
             }
         } else {
             $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,11'];
@@ -33,8 +36,8 @@ class MemberController extends Controller
         return Validator::make($data, [
             'member_id' => $member_id,
             'email' => $email,
-            'password' => ['nullable','string', 'min:8', 'required_with:repassword', 'same:repassword'],
-            'repassword' => ['nullable','string', 'min:8'],
+            'password' => ['nullable', 'string', 'min:8', 'required_with:repassword', 'same:repassword'],
+            'repassword' => ['nullable', 'string', 'min:8'],
             'name' => ['required', 'string', 'max:255'],
             'level' => ['required'],
         ]);
@@ -111,10 +114,10 @@ class MemberController extends Controller
     public function update_login(User $member)
     {
         $validator = Validator::make(request()->all(), [
-            'password_login' => ['nullable','string', 'min:8', 'required_with:repassword_login', 'same:repassword_login'],
-            'repassword_login' => ['nullable','string', 'min:8'],
+            'password_login' => ['nullable', 'string', 'min:8', 'required_with:repassword_login', 'same:repassword_login'],
+            'repassword_login' => ['nullable', 'string', 'min:8'],
             'name_login' => ['required', 'string', 'max:255'],
-            'image' => ['mimes:jpeg,png', 'max:1024','image'],
+            'image' => ['mimes:jpeg,png', 'max:1024', 'image'],
         ]);
         if ($validator->fails()) {
             $validator->validate();
@@ -138,7 +141,7 @@ class MemberController extends Controller
             }
             if (!empty(request()->password_login)) {
                 $password = Hash::make(request()->password_login);
-            }else{
+            } else {
                 $password = $member->password;
             }
             $member->name = request()->name_login;
@@ -147,5 +150,24 @@ class MemberController extends Controller
             $member->save();
             return redirect(route('member'))->with('success', 'Your Data Successfuly Update');
         }
+    }
+
+    public function import_excel()
+    {
+        $validator = Validator::make(request()->all(), [
+            'import' => ['mimes:xlsx', 'max:10024', 'required'],
+        ]);
+        if ($validator->fails()) {
+            $validator->validate();
+            return redirect(route('member'))->with('error', 'Your Data Failed To Import');
+        } else {
+            Excel::import(new UsersImport, request()->file('import'));
+            return redirect(route('member'))->with('success', 'Your Data Successfuly To Import');
+        }
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new UsersExport, 'data_user_aktif.xlsx');
     }
 }

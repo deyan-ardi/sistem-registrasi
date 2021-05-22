@@ -116,9 +116,14 @@ class VoteController extends Controller
     public function administrator(Vote $vote)
     {
         $admin = Vote::find($vote->id);
+        if ($admin->status == 1) {
+            $status_activity = 1;
+        } else {
+            $status_activity = NULL;
+        }
         $vote_count = User::where('vote_id', $vote->id)->where('status_voting', '1')->count();
         $not_vote_count = User::where('vote_id', $vote->id)->where('status_voting', '1')->count();
         $setting = Setting::first();
-        return view('user.page.admin', ['setting' => $setting, 'admin' => $admin, 'vote' => $vote_count, 'not_vote' => $not_vote_count, 'sidebar' => 3]);
+        return view('user.page.admin', ['setting' => $setting, 'activity' => $status_activity, 'admin' => $admin, 'vote' => $vote_count, 'not_vote' => $not_vote_count, 'sidebar' => 3]);
     }
 }
