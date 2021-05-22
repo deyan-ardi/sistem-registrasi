@@ -16,7 +16,7 @@
                     aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                     @if (!empty(Auth::user()->image))
-                        <img class="img-profile rounded-circle" src="{{asset('storage/' . Auth::user()->image)}}">
+                        <img class="img-profile rounded-circle" src="{{ asset('storage/' . Auth::user()->image) }}">
                     @else
                         <img class="img-profile rounded-circle" src="{{ asset('storage/user/profile.svg') }}">
                     @endif
@@ -59,7 +59,11 @@
                         @method('patch')
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user " disabled
-                                value="{{ Str::substr(Auth::user()->member_id, 0, -5) }}*****">
+                                value="{{ Str::substr(Auth::user()->member_id, 0, -5) }}***** (No KTA)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user " disabled
+                                value="{{ Str::substr(Auth::user()->nik, 0, -5) }}***** (No KTP)">
                         </div>
                         @php
                             $cut = explode('@', Auth::user()->email);
@@ -70,6 +74,7 @@
                             <input type="text" class="form-control form-control-user " disabled
                                 value="{{ $hasil . '*****@' . $cut['1'] }}">
                         </div>
+
                         <div class="form-group">
                             <input id="file" type="file" accept=".jpg,.png" title=" Pilih Foto Profil "
                                 class="form-control form-control-user @error('image') is-invalid @enderror"
@@ -88,6 +93,18 @@
                                 value="{{ old('name_login') ?? Auth::user()->name }}" required>
 
                             @error('name_login')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input id="text" type="number" minlength="9" maxlength="15"
+                                class="form-control form-control-user @error('phone') is-invalid @enderror"
+                                name="phone" placeholder="Nomor Telepon"
+                                value="{{ old('phone') ?? Auth::user()->phone }}" required>
+
+                            @error('phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

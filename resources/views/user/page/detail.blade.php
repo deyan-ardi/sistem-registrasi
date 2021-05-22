@@ -113,7 +113,7 @@
                                 <span class="icon text-white-50">
                                     <i class="fas fa-envelope"></i>
                                 </span>
-                                <span class="text">Hubungi Semua Pemilih</span>
+                                <span class="text">Kirim Token Ke Semua Member</span>
                             </button>
                         </form>
                     </div>
@@ -123,11 +123,12 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>ID Member</th>
+                                <th>No KTA</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Akun Status</th>
                                 <th>Voting Status</th>
+                                <th>Token Status</th>
                                 @if (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($admin->end))
                                     <th>Fitur</th>
                                 @endif
@@ -136,11 +137,12 @@
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>ID Member</th>
+                                <th>No KTA</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Akun Status</th>
                                 <th>Voting Status</th>
+                                <th>Token Status</th>
                                 @if (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($admin->end))
                                     <th>Fitur</th>
                                 @endif
@@ -170,6 +172,11 @@
                                     @else
                                         <td><a href="#" class="btn btn-danger btn-sm">Belum</a></td>
                                     @endif
+                                    @if (!empty($all->token))
+                                        <td><a href="#" class="btn btn-success btn-sm">Terkirim</a></td>
+                                    @else
+                                        <td><a href="#" class="btn btn-danger btn-sm">Belum</a></td>
+                                    @endif
                                     @if (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($admin->end))
                                         <td>
                                             @if ($all->status_voting == '0' && !empty($all->email_verified_at))
@@ -180,7 +187,7 @@
                                                         <span class="icon text-white-50">
                                                             <i class="fas fa-envelope"></i>
                                                         </span>
-                                                        <span class="text">Ingatkan Pemilih</span>
+                                                        <span class="text">Buat Token</span>
                                                     </button>
                                                 </form>
                                             @elseif ($all->status_voting == '0' && empty($all->email_verified_at))
@@ -197,7 +204,7 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="belumAktifLabel">Hubungi Pemilih
+                                                                <h5 class="modal-title" id="belumAktifLabel">Kirim Token
                                                                 </h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
@@ -205,7 +212,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Tidak dapat menghubungi, Akun pemilih belum diaktivasi
+                                                                <p>Tidak dapat mengirimkan token, Akun pemilih belum diaktivasi
                                                                 </p>
                                                             </div>
                                                             <div class="modal-footer">
@@ -237,7 +244,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Tidak dapat menghubungi, Pemilih sudah melakukan
+                                                                <p>Tidak dapat membuat token, Pemilih sudah melakukan
                                                                     pemilihan
                                                                 </p>
                                                             </div>

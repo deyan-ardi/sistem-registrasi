@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Candidate;
 use App\Detail;
 use App\Mail\SendEmailReminder;
+use App\Mail\SendEmailSuccessfuly;
 use App\Setting;
 use App\User;
 use App\Vote;
@@ -21,7 +22,7 @@ class DetailController extends Controller
         $active = Vote::where('status', '1')->first();
         $user = User::get();
         $setting = Setting::first();
-        return view('user.page.detail', ['setting'=>$setting,"detail_all" => $detail, "sidebar" => 3, 'admin' => $vote, 'user_all' => $user, 'activity' => $active]);
+        return view('user.page.detail', ['setting' => $setting, "detail_all" => $detail, "sidebar" => 3, 'admin' => $vote, 'user_all' => $user, 'activity' => $active]);
     }
 
     public function update(Vote $vote)
@@ -41,11 +42,17 @@ class DetailController extends Controller
     public function reminder(User $user, Vote $vote)
     {
         if ($vote->status == 1) {
+            $string = "0123456789bcdfghjklmnpqrstvwxyz";
+            $token = substr(str_shuffle($string), 0, 12);
+            $active = Vote::where('status', '1')->first();
+            $user->token = $token;
+            $user->save();
             $details = [
-                'title' => 'Mail from Evoting System',
-                'body' => 'This is for testing email using smtp'
+                'kegiatan' => $active->name,
+                'token' => $user->token,
+                'waktu' => $active->end,
             ];
-            if(!empty($user->email_verified_at)){
+            if (!empty($user->email_verified_at)) {
                 Mail::to($user->email)->send(new SendEmailReminder($details));
                 if (Mail::failures()) {
                     return redirect(route('management-evote', [$vote->id]))->with('error', 'Email Failed To Send ');
@@ -60,19 +67,32 @@ class DetailController extends Controller
     public function reminder_all(Vote $vote)
     {
         if ($vote->status == 1) {
-            $details = [
-                'title' => 'Mail from Evoting System',
-                'body' => 'This is for testing email using smtp'
-            ];
+            $string = "0123456789bcdfghjklmnpqrstvwxyz";
             $user = User::where('vote_id', $vote->id)->get();
-            $arr_email = array();
+            $active = Vote::where('status', '1')->first();
             foreach ($user as $u) {
                 if (!empty($u->email_verified_at)) {
-                    array_push($arr_email, $u->email);
+                    $u->token = substr(str_shuffle($string), 0, 12);
+                    if ($u->save()) {
+                        $details = [
+                            'kegiatan' => $active->name,
+                            'token' => $u->token,
+                            'waktu' => $active->end,
+                        ];
+                        Mail::to($u->email)->send(new SendEmailReminder($details));
+                        if (Mail::failures()) {
+                            $status = 0;
+                            break;
+                        } else {
+                            $status = 1;
+                        }
+                    } else {
+                        $status = 0;
+                        break;
+                    }
                 }
             }
-            Mail::to($arr_email)->send(new SendEmailReminder($details));
-            if (Mail::failures()) {
+            if ($status == 0) {
                 return redirect(route('management-evote', [$vote->id]))->with('error', 'Email Failed To Send ');
             }
             return redirect(route('management-evote', [$vote->id]))->with('success', 'Email Successfully To Send ');
@@ -87,7 +107,7 @@ class DetailController extends Controller
         if (!empty($active)) {
             $all_candidate = $active->candidate->sortBy('order');
             $setting = Setting::first();
-            return view('user.page.activity', ['setting'=>$setting,'all_candidate' => $all_candidate, 'sidebar' => 4, 'activity' => $active]);
+            return view('user.page.activity', ['setting' => $setting, 'all_candidate' => $all_candidate, 'sidebar' => 4, 'activity' => $active]);
         } else {
             abort(404);
         }
@@ -95,9 +115,9 @@ class DetailController extends Controller
 
     public function vote(Vote $vote, User $user, Candidate $candidate)
     {
-        $detail_user = Detail::where('user_id',$user->id)->first();
+        $detail_user = Detail::where('user_id', $user->id)->first();
         if ($user->status_voting == '0' && $user->vote_id == $vote->id && is_null($detail_user)) {
-            if ($user->member_id == request()->member_id) {
+            if ($user->token == request()->token) {
                 Detail::create([
                     'ip_address' => request()->ip(),
                     'user_id' => $user->id,
@@ -111,19 +131,21 @@ class DetailController extends Controller
                 // Add Count
                 $candidate->count = $candidate->count + 1;
                 $candidate->save();
+                $time_voting = Detail::where('user_id', $user->id)->get();
                 $details = [
-                    'title' => 'Mail from Evoting System',
-                    'body' => 'This is for testing email using smtp'
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'waktu' => $time_voting->created_at,
                 ];
-                Mail::to($user->email)->send(new SendEmailReminder($details));
+                Mail::to($user->email)->send(new SendEmailSuccessfuly($details));
                 if (Mail::failures()) {
                     return redirect(route('voting-activity', [$vote->id]))->with('error', 'Email Failed To Send ');
                 }
                 return redirect(route('voting-activity'))->with('success', 'Vote Successfully Add And Email Successfully Send');
             } else {
                 if (Cookie::get('_auth_failed') > 3) {
-                    Cookie::queue('_auth_allow', 1, 1);
-                    Cookie::queue('_auth_failed', 0, 1);
+                    Cookie::queue('_auth_allow', 1, 30);
+                    Cookie::queue('_auth_failed', 0, 30);
                 } else {
                     Cookie::queue('_auth_failed', Cookie::get('_auth_failed') + 1, 30);
                 }
@@ -134,14 +156,15 @@ class DetailController extends Controller
         }
     }
 
-    public function live(){
+    public function live()
+    {
         $active = Vote::where('status', '1')->first();
         if (!empty($active)) {
-            $sudah = User::where('status_voting','1')->where('vote_id',$active->id)->count();
+            $sudah = User::where('status_voting', '1')->where('vote_id', $active->id)->count();
             $belum = User::where('status_voting', '0')->where('vote_id', $active->id)->count();
-            $candidate = Candidate::where('vote_id',$active->id)->get();
+            $candidate = Candidate::where('vote_id', $active->id)->get();
             $setting = Setting::first();
-            return view('user.page.live', ['setting'=>$setting,'sidebar' => 4,'candidate'=> $candidate, 'activity' => $active,'sudah' => $sudah,'belum'=>$belum]);
+            return view('user.page.live', ['setting' => $setting, 'sidebar' => 4, 'candidate' => $candidate, 'activity' => $active, 'sudah' => $sudah, 'belum' => $belum]);
         } else {
             abort(404);
         }

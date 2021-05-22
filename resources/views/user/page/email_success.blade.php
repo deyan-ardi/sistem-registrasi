@@ -130,20 +130,14 @@
         <tr>
             <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-                    <tr>
+                     <tr>
                         <td bgcolor="#ffffff" align="left"
                             style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0; text-align:justify;">Selamat bergabung pada pemilihan kegiatan <span
-                                    style="color:#2c91fb;">{{ $details['kegiatan'] }}</span>, berikut merupakan Token
-                                pemilihan
-                                yang dapat Anda gunakan dalam melakukan e-voting melalui Sistem ini.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td bgcolor="#ffc75f" align="left"
-                            style="padding: 10px 30px 10px 30px; color: #fff; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
-                            <i style="margin: 0;">Kode bersifat unik, jangan berikan Token kepada
-                                siapapun</i>
+                            <p style="margin: 0; text-align:justify;">Terimakasih telah melakukan EVOTING pada kegiatan
+                                <span style="color:#2c91fb;">{{ ucWords($details['kegiatan']) }}</span>, berikut merupakan Bukti
+                                EVOTING anda
+                                sebagai tanda sah anda telah melakukan EVOTING pada kegiatan ini
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -153,17 +147,27 @@
                                 <table cellpadding="7">
                                     <tr>
                                         <td>
-                                            <label for="token">Token</label>
+                                            <label for="username">Nama Pemilih</label>
                                         </td>
                                         <td>:</td>
                                         <td>
-                                            <input type="disable" id="token" disabled value="{{ $details['token'] }}"
+                                            <input type="disable" id="username" disabled value="{{ $details['nama'] }}"
                                                 style="border: none; border-radius: 3px; height: 30px; width:250px; padding:10px;font-size:18px">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label for="time">Token Aktif Sampai</label>
+                                            <label for="token">Email Pemilih</label>
+                                        </td>
+                                        <td>:</td>
+                                        <td>
+                                            <input type="disable" id="token" disabled value="{{ $details['email'] }}"
+                                                style="border: none; border-radius: 3px; height: 30px; width:250px; padding:10px;font-size:18px">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="time">Waktu Memilih</label>
                                         </td>
                                         <td>:</td>
                                         <td>
@@ -173,7 +177,6 @@
                                 </table>
                             </div>
                         </td>
-
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="left"

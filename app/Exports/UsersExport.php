@@ -13,10 +13,10 @@ class UsersExport implements FromQuery, WithHeadings
      */
     public function query()
     {
-        return User::select('member_id', 'email', 'name')->where('email_verified_at', '!=', NULL);
+        return User::select('member_id', 'nik', 'email', 'name', 'phone')->where('email_verified_at', '!=', NULL);
     }
     public function headings(): array
     {
-        return ['ID Member', 'Email Member', 'Nama Member'];
+        return ['No KTA', 'No KTP', 'Email Member', 'Nama Member', 'Telepon'];
     }
 }

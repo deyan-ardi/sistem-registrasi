@@ -20,22 +20,29 @@ class MemberController extends Controller
         if ($data['edit'] == 1) {
             $cariData = User::find($data['id']);
             if ($data['member_id'] == $cariData->member_id) {
-                $member_id = ['required', 'integer', 'digits_between:3,11'];
+                $member_id = ['required', 'integer', 'digits_between:3,20'];
             } else {
-                $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,11'];
+                $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,20'];
             }
             if ($data['email'] == $cariData->email) {
                 $email = ['nullable', 'string', 'email', 'max:255',];
             } else {
                 $email = ['nullable', 'unique:users', 'string', 'email', 'max:255'];
             }
+            if ($data['nik'] == $cariData->nik) {
+                $nik = ['required', 'integer', 'digits_between:3,30'];
+            } else {
+                $nik = ['required', 'integer', 'unique:users', 'digits_between:3,30'];
+            }
         } else {
-            $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,11'];
+            $member_id = ['required', 'integer', 'unique:users', 'digits_between:3,20'];
+            $nik = ['required', 'integer', 'unique:users', 'digits_between:3,30'];
             $email = "";
         }
         return Validator::make($data, [
             'member_id' => $member_id,
             'email' => $email,
+            'nik' => $nik,
             'password' => ['nullable', 'string', 'min:8', 'required_with:repassword', 'same:repassword'],
             'repassword' => ['nullable', 'string', 'min:8'],
             'name' => ['required', 'string', 'max:255'],
@@ -57,7 +64,7 @@ class MemberController extends Controller
             $validator->validate();
             return redirect(route('member'))->with('error', 'Member Failed To Added');
         } else {
-            User::create([
+            User::create(['nik' => request()->nik,
                 'member_id' => request()->member_id,
                 'name' => request()->name,
                 'level' => request()->level,
@@ -74,7 +81,7 @@ class MemberController extends Controller
             return redirect(route('member'))->with('error', 'Member Failed To Update');
         } else {
             if (!empty(request()->password) && !empty(request()->repassword)) {
-                User::where('id', request()->id)->update([
+                User::where('id', request()->id)->update(['nik' => request()->nik,
                     'member_id' => request()->member_id,
                     'name' => request()->name,
                     'email' => request()->email,
@@ -82,14 +89,14 @@ class MemberController extends Controller
                     'level' => request()->level,
                 ]);
             } else if (!empty(request()->email)) {
-                User::where('id', request()->id)->update([
+                User::where('id', request()->id)->update(['nik' => request()->nik,
                     'member_id' => request()->member_id,
                     'name' => request()->name,
                     'email' => request()->email,
                     'level' => request()->level,
                 ]);
             } else {
-                User::where('id', request()->id)->update([
+                User::where('id', request()->id)->update(['nik' => request()->nik,
                     'member_id' => request()->member_id,
                     'name' => request()->name,
                     'level' => request()->level,
@@ -116,6 +123,7 @@ class MemberController extends Controller
         $validator = Validator::make(request()->all(), [
             'password_login' => ['nullable', 'string', 'min:8', 'required_with:repassword_login', 'same:repassword_login'],
             'repassword_login' => ['nullable', 'string', 'min:8'],
+            'phone' => ['nullable', 'string', 'digits_between:9,15'],
             'name_login' => ['required', 'string', 'max:255'],
             'image' => ['mimes:jpeg,png', 'max:1024', 'image'],
         ]);
@@ -145,6 +153,7 @@ class MemberController extends Controller
                 $password = $member->password;
             }
             $member->name = request()->name_login;
+            $member->phone = request()->phone;
             $member->password = $password;
             $member->image = $path;
             $member->save();

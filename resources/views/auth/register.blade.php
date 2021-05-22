@@ -49,9 +49,21 @@
                 <form class="user" method="POST" novalidate action="{{ route('register') }}">
                     @csrf
                     <div class="form-group">
+                        <input id="nik" type="text"
+                            class="form-control form-control-user @error('nik') is-invalid @enderror" name="nik"
+                            value="{{ old('nik') }}" placeholder="No KTP" required
+                            autocomplete="nik">
+
+                        @error('nik')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <input id="member_id" type="text"
                             class="form-control form-control-user @error('member_id') is-invalid @enderror" name="member_id"
-                            value="{{ old('member_id') }}" placeholder="No Kartu Anggota" required
+                            value="{{ old('member_id') }}" placeholder="No Kartu Tanda Anggota" required
                             autocomplete="member_id">
 
                         @error('member_id')

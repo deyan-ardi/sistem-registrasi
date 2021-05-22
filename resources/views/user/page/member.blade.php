@@ -58,9 +58,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>ID Member</th>
+                                <th>No KTA</th>
+                                <th>No KTP</th>
                                 <th>Nama</th>
                                 <th>Email</th>
+                                <th>No Telepon</th>
                                 <th>Akun Status</th>
                                 <th>Level</th>
                                 <th>Akun Dibuat</th>
@@ -71,9 +73,11 @@
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>ID Member</th>
+                                <th>No KTA</th>
+                                <th>No KTP</th>
                                 <th>Nama</th>
                                 <th>Email</th>
+                                <th>No Telepon</th>
                                 <th>Akun Status</th>
                                 <th>Level</th>
                                 <th>Akun Dibuat</th>
@@ -89,9 +93,15 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $all->member_id }}</td>
+                                    <td>{{ $all->nik }}</td>
                                     <td>{{ $all->name }}</td>
                                     @if (!empty($all->email))
                                         <td>{{ $all->email }}</td>
+                                    @else
+                                        <td><em>Kosong</em></td>
+                                    @endif 
+                                    @if (!empty($all->phone))
+                                        <td>{{ $all->phone }}</td>
                                     @else
                                         <td><em>Kosong</em></td>
                                     @endif
@@ -143,7 +153,7 @@
                                                             <div class="form-group">
                                                                 <input id="text" type="text"
                                                                     class="form-control form-control-user @error('member_id') is-invalid @enderror"
-                                                                    name="member_id" placeholder="ID Member"
+                                                                    name="member_id" placeholder="No KTA"
                                                                     value="{{ $all->member_id }}" required>
 
                                                                 @error('member_id')
@@ -152,7 +162,18 @@
                                                                     </span>
                                                                 @enderror
                                                             </div>
+                                                            <div class="form-group">
+                                                                <input id="text" type="text"
+                                                                    class="form-control form-control-user @error('nik') is-invalid @enderror"
+                                                                    name="nik" placeholder="No KTP"
+                                                                    value="{{ $all->nik }}" required>
 
+                                                                @error('nik')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
                                                             <div class="form-group">
                                                                 <input id="text" type="text"
                                                                     class="form-control form-control-user @error('name') is-invalid @enderror"
@@ -266,9 +287,20 @@
                         <div class="form-group">
                             <input id="text" type="text"
                                 class="form-control form-control-user @error('member_id') is-invalid @enderror"
-                                name="member_id" placeholder="ID Member" value="{{ old('member_id') }}" required>
+                                name="member_id" placeholder="No KTA" value="{{ old('member_id') }}" required>
 
                             @error('member_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input id="text" type="text"
+                                class="form-control form-control-user @error('nik') is-invalid @enderror" name="nik"
+                                placeholder="No KTP" value="{{ old('nik') }}" required>
+
+                            @error('nik')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -322,7 +354,9 @@
                                 </span>
                             @enderror
                         </div>
-                        <p>Silahkan import data member komunitas dengan menggunakan format berikut (<span class="text-primary"><a href="{{ asset('format_file_upload.xlsx') }}">Format Upload Excel</a></span>)</p>
+                        <p>Silahkan import data member komunitas dengan menggunakan format berikut (<span
+                                class="text-primary"><a href="{{ asset('format_file_upload.xlsx') }}">Format Upload
+                                    Excel</a></span>)</p>
                         <input type="hidden" name="level" value="user" required>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

@@ -26,7 +26,8 @@
                                 $hasil = substr($cut[0],0,-5);
                                 
                             @endphp    
-                            <li>ID Member : {{ Str::substr(Auth::user()->member_id, 0, -5) }}*****</li>
+                            <li>No KTA : {{ Str::substr(Auth::user()->member_id, 0, -5) }}*****</li>
+                            <li>No KTP : {{ Str::substr(Auth::user()->nik, 0, -5) }}*****</li>
                             <li>Nama : {{ Auth::user()->name }}</li>
                             <li>Email : @php
                                 echo $hasil."*****@".$cut['1'];    

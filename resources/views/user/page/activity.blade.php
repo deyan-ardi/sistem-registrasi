@@ -106,13 +106,13 @@
                                                                 <label for="text">Untuk Mengkonfirmasi Pilihan Anda,
                                                                     Silahkan
                                                                     Masukkan
-                                                                    ID Member Anda</label>
+                                                                    Token Yang Telah Dikirimkan Ke Email Anda</label>
                                                                 <input id="text" type="text"
-                                                                    class="form-control form-control-user @error('member_id') is-invalid @enderror"
-                                                                    name="member_id" placeholder="ID Member"
-                                                                    value="{{ old('member_id') }}" required>
+                                                                    class="form-control form-control-user @error('token') is-invalid @enderror"
+                                                                    name="token" placeholder="ID Member"
+                                                                    value="{{ old('token') }}" required>
 
-                                                                @error('member_id')
+                                                                @error('token')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>
                                                                     </span>
@@ -186,7 +186,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Anda memasukkan Member ID yang salah berulang-ulang, Anda Terblokir Untuk Sementara Waktu, Silahkan Coba
+                    Anda memasukkan Token yang salah berulang-ulang, Anda Terblokir Untuk Sementara Waktu, Silahkan Coba
                     Lagi Nanti
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

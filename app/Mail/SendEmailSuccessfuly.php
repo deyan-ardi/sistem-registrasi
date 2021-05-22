@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendEmailReminder extends Mailable
+class SendEmailSuccessfuly extends Mailable
 {
     use Queueable, SerializesModels;
     public $details;
@@ -28,6 +28,6 @@ class SendEmailReminder extends Mailable
      */
     public function build()
     {
-        return $this->subject('Token Evoting Activity')->view('user.page.email');
+        return $this->subject('Thanks You For Your Contribution')->view('user.page.email_success');
     }
 }
