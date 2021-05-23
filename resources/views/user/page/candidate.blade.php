@@ -182,10 +182,10 @@
                                             </div>
                                             {{-- End Modal --}}
                                             <form action="{{ route('delete-candidate', [$all->id, $admin->id]) }}"
-                                                class="mt-2" method="POST">
+                                                class="mt-2 hapus-form" method="POST">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-danger btn-sm btn-icon-split">
+                                                <button type="submit" class="btn btn-danger tombol-hapus btn-sm btn-icon-split">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>

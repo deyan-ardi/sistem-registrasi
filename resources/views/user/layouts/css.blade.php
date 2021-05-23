@@ -7,3 +7,6 @@
 <link href="{{ asset('css/sweetalert2.css') }}" rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('js/jquery-qrcode.js') }}"></script>

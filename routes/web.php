@@ -47,13 +47,14 @@ Route::middleware(['auth','verified'])->prefix('activity')->group(function () {
     Route::get('/voting-activity', 'DetailController@activity')->name('voting-activity');
     Route::patch('/update-vote/{vote}/{user}/{candidate}', 'DetailController@vote')->name('update-vote');
     Route::get('/info','SettingController@info')->name('info');
+    Route::post('/create-token/{user}/{vote}', 'DetailController@reminder')->name('create-token');
 });
 
 Route::middleware(['auth','verified','admin'])->prefix('detail')->group(function () {
     Route::get('/management-evote/{vote}', 'DetailController@index')->name('management-evote');
     Route::patch('/sinkronasi-pemilih/{vote}', 'DetailController@update')->name('sinkronasi-pemilih');
-    Route::post('/reminder-evote/{user}/{vote}', 'DetailController@reminder')->name('reminder-vote');
-    Route::post('/reminder-all/{vote}', 'DetailController@reminder_all')->name('reminder-all');
+    Route::post('/create-token-all/{vote}', 'DetailController@reminder_all')->name('create-token-all');
+    Route::delete('/delete-token/{user}/{vote}', 'DetailController@destroy')->name('delete-token');
 });
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('candidate')->group(function () {

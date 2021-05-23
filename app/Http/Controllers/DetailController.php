@@ -9,6 +9,7 @@ use App\Mail\SendEmailSuccessfuly;
 use App\Setting;
 use App\User;
 use App\Vote;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 
@@ -55,12 +56,12 @@ class DetailController extends Controller
             if (!empty($user->email_verified_at)) {
                 Mail::to($user->email)->send(new SendEmailReminder($details));
                 if (Mail::failures()) {
-                    return redirect(route('management-evote', [$vote->id]))->with('error', 'Email Failed To Send ');
+                    return redirect()->back()->with('error', 'Email Failed To Send ');
                 }
-                return redirect(route('management-evote', [$vote->id]))->with('success', 'Email Successfully To Send ');
+                return redirect()->back()->with('success', 'Email Successfully To Send ');
             }
         } else {
-            return redirect(route('management-evote', [$vote->id]))->with('error', 'Vote Activity Not Activate ');
+            return redirect()->back()->with('error', 'Vote Activity Not Activate ');
         }
     }
 
@@ -131,11 +132,11 @@ class DetailController extends Controller
                 // Add Count
                 $candidate->count = $candidate->count + 1;
                 $candidate->save();
-                $time_voting = Detail::where('user_id', $user->id)->get();
                 $details = [
-                    'name' => $user->name,
+                    'kegiatan' => $vote->name,
+                    'nama' => $user->name,
                     'email' => $user->email,
-                    'waktu' => $time_voting->created_at,
+                    'waktu' => Carbon::now(),
                 ];
                 Mail::to($user->email)->send(new SendEmailSuccessfuly($details));
                 if (Mail::failures()) {
@@ -149,7 +150,7 @@ class DetailController extends Controller
                 } else {
                     Cookie::queue('_auth_failed', Cookie::get('_auth_failed') + 1, 30);
                 }
-                return redirect(route('voting-activity'))->with('error', 'Wrong Member ID');
+                return redirect(route('voting-activity'))->with('error', 'Wrong Token Vote');
             }
         } else {
             return redirect(route('voting-activity'))->with('error', 'Can\t Vote, Activity Not Activate Or You Not Registered In This Activity');
@@ -165,6 +166,21 @@ class DetailController extends Controller
             $candidate = Candidate::where('vote_id', $active->id)->get();
             $setting = Setting::first();
             return view('user.page.live', ['setting' => $setting, 'sidebar' => 4, 'candidate' => $candidate, 'activity' => $active, 'sudah' => $sudah, 'belum' => $belum]);
+        } else {
+            abort(404);
+        }
+    }
+
+    public function destroy(User $user, Vote $vote)
+    {
+        if ($vote->status == 1) {
+            if (!empty($user->token)) {
+                $user->token = NULL;
+                $user->save();
+                return redirect()->back()->with('success', 'Token Successfuly Deleted');
+            } else {
+                abort(404);
+            }
         } else {
             abort(404);
         }

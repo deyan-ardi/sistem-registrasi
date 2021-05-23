@@ -249,11 +249,11 @@
                                             </div>
                                         </div>
                                         {{-- End Modal --}}
-                                        <form action="{{ route('delete-member', [$all->id]) }}" class="mt-2"
+                                        <form  action="{{ route('delete-member', [$all->id]) }}" class="mt-2 hapus-form"
                                             method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm btn-icon-split">
+                                            <button type="submit" class="btn btn-danger btn-sm btn-icon-split tombol-hapus">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-trash"></i>
                                                 </span>

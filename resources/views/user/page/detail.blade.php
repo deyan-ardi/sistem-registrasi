@@ -107,11 +107,11 @@
                                 <span class="text">Sinkronasi Pemilih</span>
                             </button>
                         </form>
-                        <form action="{{ route('reminder-all', [$admin->id]) }}" class="mb-3 ml-2" method="POST">
+                        <form action="{{ route('create-token-all', [$admin->id]) }}" class="mb-3 ml-2" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-info btn-sm btn-icon-split">
                                 <span class="icon text-white-50">
-                                    <i class="fas fa-envelope"></i>
+                                    <i class="fas fa-key"></i>
                                 </span>
                                 <span class="text">Kirim Token Ke Semua Member</span>
                             </button>
@@ -180,21 +180,80 @@
                                     @if (\Carbon\Carbon::now() <= \Carbon\Carbon::parse($admin->end))
                                         <td>
                                             @if ($all->status_voting == '0' && !empty($all->email_verified_at))
-                                                <form action="{{ route('reminder-vote', [$all->id, $admin->id]) }}"
+                                                <form action="{{ route('create-token', [$all->id, $admin->id]) }}"
                                                     method="POST">
                                                     @csrf
                                                     <button type="submit" class="btn btn-info btn-sm btn-icon-split">
                                                         <span class="icon text-white-50">
-                                                            <i class="fas fa-envelope"></i>
+                                                            <i class="fas fa-key"></i>
                                                         </span>
                                                         <span class="text">Buat Token</span>
                                                     </button>
                                                 </form>
+                                                @if (!empty($all->token))
+                                                    <form action="{{ route('delete-token', [$all->id, $admin->id]) }}"
+                                                        method="POST" class="mt-2">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger btn-sm btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-trash"></i>
+                                                            </span>
+                                                            <span class="text">Hapus Token</span>
+                                                        </button>
+                                                    </form>
+                                                    <button class="btn btn-warning mt-2 btn-sm btn-icon-split"
+                                                        data-target="#lihatToken-{{ $all->id }}" data-toggle="modal">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-key"></i>
+                                                        </span>
+                                                        <span class="text">Lihat Token</span>
+                                                    </button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="lihatToken-{{ $all->id }}"
+                                                        tabindex="-1" aria-labelledby="belumAktifLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="belumAktifLabel">Lihat Token
+                                                                        - <span
+                                                                            class="text-primary">{{ $all->member_id }}</span>
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <div id="qrcode_{{ $all->id }}"
+                                                                        class="">
+                                                                    </div>
+                                                                    <h4 class="text-primary">{{ $all->token }}</h4>
+                                                                    <p class="mt-2">Token Aktif Sampai {{ $activity->end  }} WITA</p>
+                                                                    <script type="text/javascript">
+                                                                        $(document).ready(function() {
+                                                                            //your code here
+                                                                            $('#qrcode_{{ $all->id }}'
+                                                                                ).qrcode({
+                                                                                text: "{{ $all->token }}"
+                                                                            });
+                                                                        });
+
+                                                                    </script>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Tutup</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             @elseif ($all->status_voting == '0' && empty($all->email_verified_at))
                                                 <button class="btn btn-danger btn-sm btn-icon-split"
                                                     data-target="#belumAktif" data-toggle="modal">
                                                     <span class="icon text-white-50">
-                                                        <i class="fas fa-envelope"></i>
+                                                        <i class="fas fa-key"></i>
                                                     </span>
                                                     <span class="text">Belum Aktif</span>
                                                 </button>
@@ -212,7 +271,8 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Tidak dapat mengirimkan token, Akun pemilih belum diaktivasi
+                                                                <p>Tidak dapat mengirimkan token, Akun pemilih belum
+                                                                    diaktivasi
                                                                 </p>
                                                             </div>
                                                             <div class="modal-footer">
@@ -226,9 +286,9 @@
                                                 <button class="btn btn-success btn-sm btn-icon-split"
                                                     data-target="#sudahMemilih" data-toggle="modal">
                                                     <span class="icon text-white-50">
-                                                        <i class="fas fa-envelope"></i>
+                                                        <i class="fas fa-key"></i>
                                                     </span>
-                                                    <span class="text">Sudah Memilih</span>
+                                                    <span class="text">Digunakan</span>
                                                 </button>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="sudahMemilih" tabindex="-1"
@@ -236,7 +296,7 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="addVoteLabel">Hubungi Pemilih
+                                                                <h5 class="modal-title" id="addVoteLabel">Kirim Token
                                                                 </h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
