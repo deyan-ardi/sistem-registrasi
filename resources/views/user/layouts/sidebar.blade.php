@@ -5,8 +5,8 @@
           <a class="sidebar-brand d-flex align-items-center justify-content-center mb-3 mt-3" href="/">
               @if (!empty($setting->image_system))
                   <div class="sidebar-brand-icon">
-                      <img style="height:85px; width:85px; object-fit:cover; object-position:center; "
-                          src="{{ asset('storage/' . $setting->image_system) }}" class="rounded-circle" alt="Kosong">
+                      <img width="50%"
+                          src="{{ asset('storage/' . $setting->image_system) }}"  alt="Kosong">
                   </div>
               @else
                   <div class="sidebar-brand-text mx-3">{{ $setting->name_system }}</div>

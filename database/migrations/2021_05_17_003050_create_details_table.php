@@ -16,8 +16,8 @@ class CreateDetailsTable extends Migration
         Schema::create('details', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address',25);
-            $table->foreignId('user_id');
-            $table->foreignId('vote_id');
+            $table->foreignId('user_id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('vote_id')->onDelete('cascade')->onUpdate('cascade');
             $table->string('candidate_id',100);
             $table->timestamps();
         });

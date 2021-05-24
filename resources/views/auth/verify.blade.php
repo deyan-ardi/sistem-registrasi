@@ -10,8 +10,8 @@
             <div class="p-5">
                 <div class="text-center">
                     @if (!empty($setting->image_system))
-                        <img style="height:85px; width:85px; object-fit:cover; object-position:center; "
-                            src="{{ asset('storage/' . $setting->image_system) }}" class="rounded-circle mb-4"
+                       <img width="25%"
+                            src="{{ asset('storage/' . $setting->image_system) }}" class="mb-4"
                             alt="Kosong">
                     @endif
                     <h1 class="h4 text-gray-900 mb-4">Verikasi Alamat Email Anda</h1>

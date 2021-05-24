@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vote_id')->nullable();
+            $table->foreignId('vote_id')->onDelete('cascade')->onUpdate('cascade')->nullable();
             $table->enum('status_voting', array("0", "1"))->default(0);
             $table->string('token', 15)->nullable();
             $table->string('image',150)->nullable();

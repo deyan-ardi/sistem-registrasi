@@ -15,7 +15,7 @@ class CreateCandidatesTable extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vote_id');
+            $table->foreignId('vote_id')->onUpdate('cascade')->onDelete('cascade');
             $table->smallInteger('order');
             $table->string('name',200);
             $table->text('description');
