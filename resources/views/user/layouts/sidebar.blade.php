@@ -3,10 +3,9 @@
 
           <!-- Sidebar - Brand -->
           <a class="sidebar-brand d-flex align-items-center justify-content-center mb-3 mt-3" href="/">
-              @if (!empty($setting->image_system))
+              @if (!empty($setting->image_sidebar))
                   <div class="sidebar-brand-icon">
-                      <img width="50%"
-                          src="{{ asset('storage/' . $setting->image_system) }}"  alt="Kosong">
+                      <img width="75%" src="{{ asset('storage/' . $setting->image_sidebar) }}" alt="Kosong">
                   </div>
               @else
                   <div class="sidebar-brand-text mx-3">{{ $setting->name_system }}</div>
@@ -37,12 +36,6 @@
                       <span>Manajemen Member</span></a>
               </li>
 
-              <li class="nav-item{{ $sidebar == 3 ? ' active' : '' }}">
-                  <a class="nav-link" href="{{ route('vote') }}">
-                      <i class="fas fa-fw fa-vote-yea"></i>
-                      <span>Manajemen Evoting</span></a>
-              </li>
-
               <li class="nav-item{{ $sidebar == 5 ? ' active' : '' }}">
                   <a class="nav-link" href="{{ route('setting') }}">
                       <i class="fas fa-fw fa-cog"></i>
@@ -52,33 +45,16 @@
 
           <!-- Divider -->
           <hr class="sidebar-divider">
-
-          <!-- Heading -->
-          <div class="sidebar-heading">
-              Fitur Pengguna
-          </div>
-          @if (!empty($activity))
-              <li class="nav-item{{ $sidebar == 4 ? ' active' : '' }}">
-                  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                      aria-expanded="true" aria-controls="collapseThree">
-                      <i class="fas fa-fw fa-chart-area"></i>
-                      <span>Voting Kandidat</span>
-                  </a>
-                  <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                      <div class="bg-white py-2 collapse-inner rounded">
-                          <h6 class="collapse-header">Layanan:</h6>
-                          <a class="collapse-item" href="{{ route('voting-activity') }}">Surat Suara</a>
-                          <a class="collapse-item" href="{{ route('live-count') }}">Live Count</a>
-                      </div>
-                  </div>
-              </li>
-          @endif
-
           <!-- Nav Item - Tables -->
+          <li class="nav-item{{ $sidebar == 3 ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('edit-profil') }}">
+                  <i class="fas fa-fw fa-user-cog"></i>
+                  <span>Informasi Profil</span></a>
+          </li>
           <li class="nav-item{{ $sidebar == 6 ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('info') }}">
                   <i class="fas fa-fw fa-info-circle"></i>
-                  <span>Info Web App</span></a>
+                  <span>Tentang Web</span></a>
           </li>
 
           <!-- Divider -->

@@ -8,14 +8,19 @@
         <div class="col-lg-12">
             <div class="p-5">
                 <div class="text-center">
-                    @if (!empty($setting->image_system))
+                    @if (!empty($setting->image_login))
                        <img width="25%"
-                            src="{{ asset('storage/' . $setting->image_system) }}" class="mb-4"
+                            src="{{ asset('storage/' . $setting->image_login) }}" class="mb-4 rounded-circle"
                             alt="Kosong">
                     @endif
                     <h1 class="h4 text-gray-900 mb-2">{{ ucWords($setting->name_system) }}</h1>
                     <p class="mb-4">{{ ucWords($setting->name_comunity) }}</p>
                 </div>
+                @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <form class="user" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Setting;
-use App\Vote;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -25,9 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $active = Vote::where('status', '1')->first();
         $setting = Setting::first();
-        return view('user.page.index',['sidebar' => 1,'activity' => $active,'setting' => $setting]);
+        return view('user.page.index', ['sidebar' => 1, 'setting' => $setting]);
     }
 
 }

@@ -6,10 +6,100 @@
             <i class="fa fa-bars"></i>
         </button>
 
-
+        <!-- Topbar Search -->
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                    aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-info" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-search fa-fw"></i>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                    aria-labelledby="searchDropdown">
+                    <form class="form-inline mr-auto w-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
 
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw"></i>
+                    <!-- Counter - Alerts -->
+                    <span class="badge badge-danger badge-counter">0</span>
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">
+                        Notifikasi Sistem
+                    </h6>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-success">
+                                <i class="fas fa-eye text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="font-weight-bold">Tidak Ada Notifikasi</span>
+                        </div>
+                    </a>
+                    <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Semua Notifikasi</a>
+                </div>
+            </li>
+
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-envelope fa-fw"></i>
+                    <!-- Counter - Messages -->
+                    <span class="badge badge-danger badge-counter">0</span>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="messagesDropdown">
+                    <h6 class="dropdown-header">
+                       Pesan Masuk
+                    </h6>
+                    <a class="dropdown-item d-flex align-items-center" href="#">
+                        <div class="dropdown-list-image mr-3">
+                            <div class="icon-circle bg-success">
+                                <i class="fas fa-eye text-white"></i>
+                            </div>
+                        </div>
+                        <div class="font-weight-bold">
+                            <div class="text-truncate">Tidak Ada Pesan</div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item text-center small text-gray-500" href="#">Lihat Semua Pesan</a>
+                </div>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
@@ -23,7 +113,7 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profilModal">
+                    <a class="dropdown-item" href="{{ route('edit-profil') }}">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Pengaturan Profil
                     </a>
@@ -42,94 +132,3 @@
     </nav>
     <!-- End of Topbar -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="profilModal" tabindex="-1" aria-labelledby="profilModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="profilModalLabel">Ubah Profil</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="user" action="{{ route('update-login', [Auth::user()->id]) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('patch')
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user " disabled
-                                value="{{ Str::substr(Auth::user()->member_id, 0, -5) }}***** (No KTA)">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user " disabled
-                                value="{{ Str::substr(Auth::user()->nik, 0, -5) }}***** (No KTP)">
-                        </div>
-                        @php
-                            $cut = explode('@', Auth::user()->email);
-                            $hasil = substr($cut[0], 0, -5);
-                            
-                        @endphp
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-user " disabled
-                                value="{{ $hasil . '*****@' . $cut['1'] }}">
-                        </div>
-
-                        <div class="form-group">
-                            <input id="file" type="file" accept=".jpg,.png" title=" Pilih Foto Profil "
-                                class="form-control form-control-user @error('image') is-invalid @enderror"
-                                name="image">
-
-                            @error('image')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input id="text" type="text"
-                                class="form-control form-control-user @error('name_login') is-invalid @enderror"
-                                name="name_login" placeholder="Nama Member"
-                                value="{{ old('name_login') ?? Auth::user()->name }}" required>
-
-                            @error('name_login')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input id="text" type="number" minlength="9" maxlength="15"
-                                class="form-control form-control-user @error('phone') is-invalid @enderror"
-                                name="phone" placeholder="Nomor Telepon"
-                                value="{{ old('phone') ?? Auth::user()->phone }}" required>
-
-                            @error('phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input id="text" type="password"
-                                class="form-control form-control-user @error('password_login') is-invalid @enderror"
-                                name="password_login" placeholder="Password Baru (Jika Ingin Merubah)">
-                            @error('password_login')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <input id="text" type="password" class="form-control form-control-user"
-                                name="repassword_login" placeholder="Konfirmasi Password (Jika Ingin Merubah)">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>

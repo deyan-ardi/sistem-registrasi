@@ -8,9 +8,9 @@
         <div class="col-lg-12">
             <div class="p-5">
                 <div class="text-center">
-                    @if (!empty($setting->image_system))
-                      <img width="25%"
-                            src="{{ asset('storage/' . $setting->image_system) }}" class="mb-4"
+                      @if (!empty($setting->image_login))
+                       <img width="25%"
+                            src="{{ asset('storage/' . $setting->image_login) }}" class="mb-4 rounded-circle"
                             alt="Kosong">
                     @endif
                     <h1 class="h4 text-gray-900 mb-2">Lupa Kata Sandi?</h1>

@@ -19,11 +19,15 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Manajemen Member {{ ucWords($setting->name_comunity) }}</h1>
-        <p class="mb-4">Berikut merupakan data member {{ ucWords($setting->name_comunity) }}. Untuk menambahkan member,
-            silahkan
-            pilih Tambah Member</p>
+        <h1 class="h4 mb-4 text-primary">Manajemen Member - {{ ucWords($setting->name_comunity) }}</h1>
 
+        @if (isset($errors) && $errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $err)
+                    {{ $err }}
+                @endforeach
+            </div>
+        @endif
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -99,7 +103,7 @@
                                         <td>{{ $all->email }}</td>
                                     @else
                                         <td><em>Kosong</em></td>
-                                    @endif 
+                                    @endif
                                     @if (!empty($all->phone))
                                         <td>{{ $all->phone }}</td>
                                     @else
@@ -249,7 +253,7 @@
                                             </div>
                                         </div>
                                         {{-- End Modal --}}
-                                        <form  action="{{ route('delete-member', [$all->id]) }}" class="mt-2 hapus-form"
+                                        <form action="{{ route('delete-member', [$all->id]) }}" class="mt-2 hapus-form"
                                             method="POST">
                                             @csrf
                                             @method('delete')

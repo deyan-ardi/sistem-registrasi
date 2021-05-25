@@ -28,6 +28,6 @@ class SendEmailReminder extends Mailable
      */
     public function build()
     {
-        return $this->subject('Token Evoting Activity')->view('user.page.email');
+        return $this->subject('Change Email Account Activity')->view('user.page.email');
     }
 }

@@ -13,13 +13,19 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+    <script>
+        $('#image-login').tooltip('enable');
+        $('#image-dashboard').tooltip('enable');
+        $('#image-sidebar').tooltip('enable');
+
+    </script>
 @endsection
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Setting Web App {{ ucWords($setting->name_comunity) }}</h1>
+        <h1 class="h4 mb-4 text-primary">Setting Web App - {{ ucWords($setting->name_comunity) }}</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -32,7 +38,9 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Logo System</th>
+                                <th>Logo Dashboard</th>
+                                <th>Logo Sidebar</th>
+                                <th>Logo Landing</th>
                                 <th>Nama System</th>
                                 <th>Nama Komunitas</th>
                                 <th>Ekstensi Email Diijinkan</th>
@@ -42,7 +50,9 @@
                         <tfoot>
                             <tr>
                                 <th>#</th>
-                                <th>Logo System</th>
+                                <th>Logo Dashboard</th>
+                                <th>Logo Sidebar</th>
+                                <th>Logo Landing</th>
                                 <th>Nama System</th>
                                 <th>Nama Komunitas</th>
                                 <th>Ekstensi Email Diijinkan</th>
@@ -56,9 +66,21 @@
                             @foreach ($setting_all as $all)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    @if (!empty($all->image_system))
-                                        <td><img style="height:100px; width:100px; object-fit:cover; object-position:center; border-radius:50%;"
-                                                src="{{ asset('storage/' . $all->image_system) }}" alt="Kosong"></td>
+                                    @if (!empty($all->image_dashboard))
+                                        <td><img width="40%" src="{{ asset('storage/' . $all->image_dashboard) }}"
+                                                alt="Kosong"></td>
+                                    @else
+                                        <td><em>Kosong</em></td>
+                                    @endif
+                                    @if (!empty($all->image_sidebar))
+                                        <td><img width="40%" src="{{ asset('storage/' . $all->image_sidebar) }}"
+                                                alt="Kosong"></td>
+                                    @else
+                                        <td><em>Kosong</em></td>
+                                    @endif
+                                    @if (!empty($all->image_login))
+                                        <td><img width="40%" src="{{ asset('storage/' . $all->image_login) }}"
+                                                alt="Kosong"></td>
                                     @else
                                         <td><em>Kosong</em></td>
                                     @endif
@@ -89,16 +111,42 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <form class="user"
-                                                            action="{{ route('edit-setting', [$all->id]) }}" method="POST"
-                                                            enctype="multipart/form-data">
+                                                            action="{{ route('edit-setting', [$all->id]) }}"
+                                                            method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('patch')
                                                             <div class="form-group">
-                                                                <input id="image" type="file" accept=".jpg,.png"
+                                                                <input id="image-sidebar" type="file" accept=".jpg,.png"
+                                                                    class="form-control form-control-user @error('image_sidebar') is-invalid @enderror"
+                                                                    name="image_sidebar" data-toggle="tooltip"
+                                                                    data-placement="bottom" title="Sidebar Image">
+
+                                                                @error('image_sidebar')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input id="image-dashboard" type="file" accept=".jpg,.png"
                                                                     class="form-control form-control-user @error('image') is-invalid @enderror"
-                                                                    name="image">
+                                                                    name="image" data-toggle="tooltip"
+                                                                    data-placement="bottom" title="Dashboard Image">
 
                                                                 @error('image')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <input id="image-login" type="file" accept=".jpg,.png"
+                                                                    class="form-control form-control-user @error('image_landing') is-invalid @enderror"
+                                                                    name="image_landing" data-toggle="tooltip"
+                                                                    data-placement="bottom" title="Landing Page Image">
+
+                                                                @error('image_landing')
                                                                     <span class="invalid-feedback" role="alert">
                                                                         <strong>{{ $message }}</strong>
                                                                     </span>

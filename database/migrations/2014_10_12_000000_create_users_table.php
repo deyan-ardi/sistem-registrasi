@@ -15,9 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vote_id')->onDelete('cascade')->onUpdate('cascade')->nullable();
-            $table->enum('status_voting', array("0", "1"))->default(0);
-            $table->string('token', 15)->nullable();
             $table->string('image',150)->nullable();
             $table->string('nik')->unique();
             $table->string('member_id')->unique();
@@ -25,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone', 15)->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('re_email')->nullable();
+            $table->string('re_token')->nullable();
+            $table->integer('re_expired')->nullable();
             $table->string('password')->nullable();
             $table->string('level',50);
             $table->rememberToken();

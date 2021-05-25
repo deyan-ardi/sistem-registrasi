@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'member_id', 'token', 'nik', 'status_voting', 'email', 'image', 'level', 'password', 'phone'
+        'name', 'member_id', 'token', 'nik', 'status_voting', 'email', 'image', 'level', 'password', 'phone', 're_token', 're_expired', 're_email'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 're_token'
     ];
 
     /**
@@ -37,11 +37,4 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function vote(){
-        return $this->hasMany(Vote::class);
-    }
-    
-    public function detail(){
-        return $this->hasMany(Detail::class);
-    }
 }

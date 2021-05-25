@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
     {
         Setting::create([
             'type_email' => 'gmail.com',
-            'name_system' => 'Sistem Evoting Komunitas',
+            'name_system' => 'Sistem Manajemen Komunitas',
             'name_comunity' => 'Komunitas Wirausaha Muda Denpasar',
         ]);
     }

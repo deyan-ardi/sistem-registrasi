@@ -133,53 +133,46 @@
                     <tr>
                         <td bgcolor="#ffffff" align="left"
                             style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0; text-align:justify;">Selamat bergabung pada pemilihan kegiatan <span
-                                    style="color:#2c91fb;">{{ $details['kegiatan'] }}</span>, berikut merupakan Token
-                                pemilihan
-                                yang dapat Anda gunakan dalam melakukan e-voting melalui Sistem ini.</p>
+                            <p style="margin: 0; text-align:justify;">Anda menerima email ini karena sistem menerima request pergantian akun email yang terhubung ke akun komunitas Anda, silahkan tekan tombol dibawah ini untuk melakukan verifikasi email baru Anda</p>
                         </td>
                     </tr>
-                    <tr>
-                        <td bgcolor="#ffc75f" align="left"
-                            style="padding: 10px 30px 10px 30px; color: #fff; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 25px;">
-                            <i style="margin: 0;">Kode bersifat unik, jangan berikan Token kepada
-                                siapapun</i>
+                     <tr>
+                        <td bgcolor="#ffffff" align="left">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="center" style="border-radius: 3px;" bgcolor="#2c91fb"><a
+                                                        href="{{ $details['link'] }}"
+                                                        target="_blank"
+                                                        style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #FFA73B; display: inline-block;">Verifikasi Email</a></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                    </tr>
+                    </tr> <!-- COPY -->
                     <tr>
                         <td bgcolor="#ffffff" align="left"
-                            style="padding: 20px 30px 40px 70px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <div class="form-group" style="width:max-content;">
-                                <table cellpadding="7">
-                                    <tr>
-                                        <td>
-                                            <label for="token">Token</label>
-                                        </td>
-                                        <td>:</td>
-                                        <td>
-                                            <input type="disable" id="token" disabled value="{{ $details['token'] }}"
-                                                style="border: none; border-radius: 3px; height: 30px; width:250px; padding:10px;font-size:18px">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="time">Token Aktif Sampai</label>
-                                        </td>
-                                        <td>:</td>
-                                        <td>
-                                            {{ $details['waktu'] }}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                            style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                            <p style="margin: 0;">Jika tombol diatas tidak bekerja, Anda dapat menggunakan tautan
+                                berikut:</p>
                         </td>
-
+                    </tr> <!-- COPY -->
+                    <tr>
+                        <td bgcolor="#ffffff" align="left"
+                            style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                            <p style="margin: 0;">
+                                {{ $details['link'] }}
+                            </p>
+                        </td>
                     </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="left"
                             style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">Jika mengalami kendala, Anda dapat menghubungi kami dengan cara
-                                membalas email ini.
+                            <p style="margin: 0;">Jika Anda merasa tidak pernah melakukan request pergantian email, silahkan abaikan email ini.
                             </p>
                         </td>
                     </tr>
