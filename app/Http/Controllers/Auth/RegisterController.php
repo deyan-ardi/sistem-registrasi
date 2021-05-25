@@ -67,7 +67,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'nik' => ['required', 'integer', 'digits_between:3,30'],
-            'name' => ['required', 'string', 'max:255'],
             'member_id' => ['required', 'integer', 'digits_between:3,20'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -84,7 +83,6 @@ class RegisterController extends Controller
     {
         $update = User::find($data['id'])->update([
             'nik' => $data['nik'],
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -104,7 +102,7 @@ class RegisterController extends Controller
             $email_input = $request->email;
             $cut = explode('@', $email_input);
             if (strtolower($cut[1]) == strtolower($email_format->type_email)) {
-                if (ucWords($member->name) == ucWords($request->name) && ucWords($member->nik) == ucWords($request->nik)) {
+                if (ucWords($member->nik) == ucWords($request->nik)) {
                     event(new Registered($user = $this->create(array_merge($request->all(), ['id' => $member->id]))));
                     if ($user) {
                         $this->guard()->login($user);

@@ -63,14 +63,14 @@
                 <hr>
                 <div class="text-center">
                     @if (Route::has('password.request'))
-                        <a class="small" href="{{ route('password.request') }}">
+                        <a class="medium" href="{{ route('password.request') }}">
                             {{ __('Lupa Kata Sandi?') }}
                         </a>
                     @endif
                 </div>
                 <div class="text-center">
                     @if (Route::has('register'))
-                        <a class="small" href="{{ route('register') }}">
+                        <a class="medium" href="{{ route('register') }}">
                             {{ __('Aktivasi Akun') }}
                         </a>
                     @endif

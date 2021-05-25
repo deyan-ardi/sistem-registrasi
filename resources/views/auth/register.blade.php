@@ -73,17 +73,6 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <input id="name" type="text"
-                            class="form-control form-control-user @error('name') is-invalid @enderror" name="name"
-                            value="{{ old('name') }}" placeholder="Nama Lengkap" required autocomplete="name" autofocus>
-
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <input id="email" type="email"
                             class="form-control form-control-user @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email') }}" placeholder="example@mail.com" required autocomplete="email">
