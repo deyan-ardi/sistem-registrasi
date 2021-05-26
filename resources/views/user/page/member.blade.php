@@ -253,17 +253,36 @@
                                             </div>
                                         </div>
                                         {{-- End Modal --}}
-                                        <form action="{{ route('delete-member', [$all->id]) }}" class="mt-2 hapus-form"
+                                        <form id="hapus-form-{{ $all->id }}" action="{{ route('delete-member', [$all->id]) }}" class="mt-2"
                                             method="POST">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm btn-icon-split tombol-hapus">
+                                            <button id="tombol-hapus-{{ $all->id }}" type="submit" class="btn btn-danger btn-sm btn-icon-split">
                                                 <span class="icon text-white-50">
                                                     <i class="fas fa-trash"></i>
                                                 </span>
                                                 <span class="text">Hapus</span>
                                             </button>
                                         </form>
+                                             <script>
+                                            $("#tombol-hapus-{{ $all->id }}").on("click", function(e) {
+                                                e.preventDefault();
+                                                Swal.fire({
+                                                    title: "Apakah Anda Yakin Ingin Menghapus {{ $all->name }}?",
+                                                    text: "Informasi Yang Terkait Dengan Data Ini Akan Hilang Secara Permanen",
+                                                    icon: "warning",
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: "#3085d6",
+                                                    cancelButtonColor: "#d33",
+                                                    cancelButtonText: "Batal",
+                                                    confirmButtonText: "Yakin"
+                                                }).then(result => {
+                                                    if (result.value) {
+                                                        $("#hapus-form-{{ $all->id }}").submit();
+                                                    }
+                                                });
+                                            });
+                                        </script>
                                     </td>
                                 </tr>
                             @endforeach
