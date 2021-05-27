@@ -177,7 +177,7 @@ return [
 
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        HighSolutions\GitHubHook\GitHubHookServiceProvider::class,
     ],
 
     /*
