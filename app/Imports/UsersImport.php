@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Validators\Failure;
 
 class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidation
 {
@@ -35,7 +34,6 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
     {
         return [
             'id_kta' => ['required', 'unique:users,member_id'],
-            'id_ktp' => ['required', 'unique:users,nik'],
         ];
     }
 }
