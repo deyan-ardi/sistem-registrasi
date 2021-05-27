@@ -134,14 +134,14 @@ class MemberController extends Controller
                 if (request()->file('image')) {
                     Storage::delete($member->image);
                     $imagePath = request()->file('image');
-                    $path = $imagePath->store("user");
+                    $path = $imagePath->store("public/user");
                 } else {
                     $path = $member->image;
                 }
             } else {
                 if (request()->file('image')) {
                     $imagePath = request()->file('image');
-                    $path = $imagePath->store("user");
+                    $path = $imagePath->store("public/user");
                 } else {
                     $path = null;
                 }
