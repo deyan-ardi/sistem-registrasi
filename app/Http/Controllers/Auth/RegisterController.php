@@ -68,6 +68,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'nik' => ['required', 'integer', 'digits_between:3,30'],
             'member_id' => ['required', 'integer', 'digits_between:3,20'],
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:15'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -84,6 +86,8 @@ class RegisterController extends Controller
         $update = User::find($data['id'])->update([
             'nik' => $data['nik'],
             'email' => $data['email'],
+            'name' => $data['name'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
         if ($update) {
@@ -102,22 +106,26 @@ class RegisterController extends Controller
             $email_input = $request->email;
             $cut = explode('@', $email_input);
             if (strtolower($cut[1]) == strtolower($email_format->type_email)) {
-                if (ucWords($member->nik) == ucWords($request->nik)) {
-                    event(new Registered($user = $this->create(array_merge($request->all(), ['id' => $member->id]))));
-                    if ($user) {
-                        $this->guard()->login($user);
-                    }
-
-                    if ($response = $this->registered($request, $user)) {
-                        return $response;
-                    }
-                    return $request->wantsJson()
-                        ? new JsonResponse([], 201)
-                        : redirect($this->redirectPath());
-                } else {
-                    return redirect()->route('register')->with('error', 'Can\'t activate the account, you are not registered as a member of the community  ');
+                // if (ucWords($member->nik) == ucWords($request->nik)) {
+                $member->name = ucWords($request->name);
+                $member->nik = $request->nik;
+                $member->phone = $request->phone;
+                $member->save();
+                event(new Registered($user = $this->create(array_merge($request->all(), ['id' => $member->id]))));
+                if ($user) {
+                    $this->guard()->login($user);
                 }
-            }else{
+
+                if ($response = $this->registered($request, $user)) {
+                    return $response;
+                }
+                return $request->wantsJson()
+                ? new JsonResponse([], 201)
+                    : redirect($this->redirectPath());
+                // } else {
+                //     return redirect()->route('register')->with('error', 'Can\'t activate the account, you are not registered as a member of the community  ');
+                // }
+            } else {
                 return redirect()->route('register')->with('error', 'Can\'t activate the account, you are email extension is not supported  ');
             }
         } else {

@@ -60,8 +60,16 @@
                                     value="{{ Str::substr(Auth::user()->member_id, 0, -5) }}***** (No KTA)">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user " disabled
-                                    value="{{ Str::substr(Auth::user()->nik, 0, -5) }}***** (No KTP)">
+                                <input id="text" type="number" min="0" maxlength="30"
+                                    class="form-control form-control-user @error('nik') is-invalid @enderror"
+                                    name="nik" placeholder="Nomor KTP"
+                                    value="{{ old('nik') ?? Auth::user()->nik }}" required>
+
+                                @error('nik')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <input id="file" type="file" accept=".jpg,.png" onchange="previewImg()"

@@ -122,6 +122,7 @@ class MemberController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'phone' => ['required', 'string', 'digits_between:9,15'],
+            'nik' => ['required', 'integer', 'digits_between:3,30'],
             'name_login' => ['required', 'string', 'max:255'],
             'image' => ['mimes:jpeg,png', 'max:1024', 'image'],
         ]);
@@ -145,6 +146,7 @@ class MemberController extends Controller
                     $path = null;
                 }
             }
+            $member->nik = request()->nik;
             $member->name = request()->name_login;
             $member->phone = request()->phone;
             $member->image = $path;

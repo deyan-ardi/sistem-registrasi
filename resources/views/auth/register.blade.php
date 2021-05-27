@@ -30,12 +30,12 @@
             <div class="p-5">
                 <div class="text-center">
                     @if (!empty($setting->image_login))
-                       <img width="25%"
-                            src="{{ asset('storage/' . $setting->image_login) }}" class="mb-4 rounded-circle"
+                        <img width="25%" src="{{ asset('storage/' . $setting->image_login) }}" class="mb-4 rounded-circle"
                             alt="Kosong">
                     @endif
                     <h1 class="h4 text-gray-900 mb-4">Aktivasi Akun Komunitas</h1>
-                    <p class="mb-4">Silahkan melakukan aktivasi akun agar dapat login ke sistem {{ ucWords($setting->name_system) }}
+                    <p class="mb-4">Silahkan melakukan aktivasi akun agar dapat login ke sistem
+                        {{ ucWords($setting->name_system) }}
                     </p>
                 </div>
                 <div class="alert alert-danger" style="display: none" id="pesan">Only Accepts The
@@ -51,8 +51,7 @@
                     <div class="form-group">
                         <input id="nik" type="text"
                             class="form-control form-control-user @error('nik') is-invalid @enderror" name="nik"
-                            value="{{ old('nik') }}" placeholder="No KTP" required
-                            autocomplete="nik">
+                            value="{{ old('nik') }}" placeholder="No KTP" required autocomplete="nik">
 
                         @error('nik')
                             <span class="invalid-feedback" role="alert">
@@ -73,8 +72,31 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <input id="name" type="text"
+                            class="form-control form-control-user @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name') }}" placeholder="Nama Member" required
+                            autocomplete="name">
+
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <input id="phone" type="number" min="0" maxlength="15"
+                            class="form-control form-control-user @error('phone') is-invalid @enderror" name="phone"
+                            value="{{ old('phone') }}" placeholder="No Telepon" required
+                            autocomplete="phone">
+
+                        @error('phone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    <div class="form-group">
                         <input id="email" type="email"
-                            class="form-control form-control-user @error('email') is-invalid @enderror" name="email"
+                            class="form-control mt-3 form-control-user @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email') }}" placeholder="example@mail.com" required autocomplete="email">
 
                         @error('email')
