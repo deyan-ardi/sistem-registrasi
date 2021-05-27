@@ -43,14 +43,14 @@ class SettingController extends Controller
                 if (request()->file('image')) {
                     Storage::delete($setting->image_dashboard);
                     $imagePath = request()->file('image');
-                    $path_dash = $imagePath->store("system");
+                    $path_dash = $imagePath->store("system", "public");
                 } else {
                     $path_dash = $setting->image_dashboard;
                 }
             } else {
                 if (request()->file('image')) {
                     $imagePath = request()->file('image');
-                    $path_dash = $imagePath->store("system");
+                    $path_dash = $imagePath->store("system", "public");
                 } else {
                     $path_dash = null;
                 }
@@ -59,14 +59,14 @@ class SettingController extends Controller
                 if (request()->file('image')) {
                     Storage::delete($setting->image_login);
                     $imagePath = request()->file('image_landing');
-                    $path_landing = $imagePath->store("system");
+                    $path_landing = $imagePath->store("system", "public");
                 } else {
                     $path_landing = $setting->image_login;
                 }
             } else {
                 if (request()->file('image_landing')) {
                     $imagePath = request()->file('image_landing');
-                    $path_landing = $imagePath->store("system");
+                    $path_landing = $imagePath->store("system", "public");
                 } else {
                     $path_landing = null;
                 }
@@ -75,14 +75,14 @@ class SettingController extends Controller
                 if (request()->file('image')) {
                     Storage::delete($setting->image_sidebar);
                     $imagePath = request()->file('image_sidebar');
-                    $path_sidebar = $imagePath->store("system");
+                    $path_sidebar = $imagePath->store("system", "public");
                 } else {
                     $path_sidebar = $setting->image_sidebar;
                 }
             } else {
                 if (request()->file('image_sidebar')) {
                     $imagePath = request()->file('image_sidebar');
-                    $path_sidebar = $imagePath->store("system");
+                    $path_sidebar = $imagePath->store("system", "public");
                 } else {
                     $path_sidebar = null;
                 }
